@@ -169,40 +169,42 @@ class PostsList extends React.Component {
                             let postServiceName = post.service_name.toLowerCase();
                             let postDateItemConv = new Date(post.item_published);
                             let ago = dateDiffInDays(postDateItemConv, today);
-                            if ((service === 'All') && (postServiceName.toLowerCase() === 'twitter')) {
-                                return (
-                                    <TwitterPost
-                                        key={post.item_id}
-                                        userName={post.item_data.user.username}
-                                        ago={ago}
-                                        text={<ReactAutolinker text={post.item_data.tweet} />}
-                                    />
+                            if (service === 'All') {
+                                if ((postServiceName.toLowerCase() === 'twitter')) {
+                                    return (
+                                        <TwitterPost
+                                            key={post.item_id}
+                                            userName={post.item_data.user.username}
+                                            ago={ago}
+                                            text={<ReactAutolinker text={post.item_data.tweet} />}
+                                        />
 
-                                );
+                                    );
 
-                            } else if ((service === 'All') && (postServiceName.toLowerCase() === 'instagram')) {
-                                return (
-                                    <InstagramPost
-                                        key={post.item_id}
-                                        userName={post.item_data.user.username}
-                                        text={<ReactAutolinker text={post.item_data.caption} />}
-                                        //imageUrl={post.item_data.image.medium}
-                                        imageUrl={choosePic()}
-                                        ago={ago}
-                                    />
-                                );
-                            } else if ((service === 'All') && (postServiceName.toLowerCase() === 'manual')){
-                                return (
-                                    <ManualPost
-                                        key={post.item_id}
-                                        text={<ReactAutolinker text={post.item_data.text} />}
-                                        //imageUrl={post.item_data.image_url}
-                                        imageUrl={choosePic()}
-                                        linkText={post.item_data.link_text}
-                                        linkUrl={post.item_data.link}
-                                        ago={ago}
-                                    />
-                                );
+                                } else if (postServiceName.toLowerCase() === 'instagram') {
+                                    return (
+                                        <InstagramPost
+                                            key={post.item_id}
+                                            userName={post.item_data.user.username}
+                                            text={<ReactAutolinker text={post.item_data.caption} />}
+                                            //imageUrl={post.item_data.image.medium}
+                                            imageUrl={choosePic()}
+                                            ago={ago}
+                                        />
+                                    );
+                                } else {
+                                    return (
+                                        <ManualPost
+                                            key={post.item_id}
+                                            text={<ReactAutolinker text={post.item_data.text} />}
+                                            //imageUrl={post.item_data.image_url}
+                                            imageUrl={choosePic()}
+                                            linkText={post.item_data.link_text}
+                                            linkUrl={post.item_data.link}
+                                            ago={ago}
+                                        />
+                                    );
+                                }
                             } else if((service === 'Twitter') && (postServiceName.toLowerCase() === 'twitter')) {
                                 return (
                                     <TwitterPost
@@ -223,7 +225,7 @@ class PostsList extends React.Component {
                                         ago={ago}
                                     />
                                 );
-                            } else {
+                            } else if((service === 'AFF') && (postServiceName.toLowerCase() === 'manual')){
                                 return (
                                     <ManualPost
                                         key={post.item_id}
