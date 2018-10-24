@@ -9,7 +9,7 @@ import './styles/index.scss';
 class FashionCarousel extends React.Component {
     render() {
         return (
-            <Carousel showArrows={true} showThumbs={false} showIndicators={false} showStatus={false}>
+            <Carousel autoPlay={true} showArrows={true} showThumbs={false} showIndicators={false} showStatus={false}>
                 <div>
                     <img src="pix/slide-1.jpg" alt="Slide 1" />
                     <p className="caption">Jean shorts craft beer viral</p>
@@ -49,8 +49,6 @@ class FilterService extends React.Component {
     }
 
     render() {
-        //const buttonActive = this.props.buttonActive ? "active" : "";
-        //console.log(buttonActive);
         return (
             <ButtonGroup id="filters">
                 {this.renderButton("All")}
