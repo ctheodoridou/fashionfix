@@ -52,7 +52,7 @@ class FilterService extends React.Component {
         return (
             <ButtonGroup id="filters">
                 {this.renderButton("All")}
-                {this.renderButton("Manual")}
+                {this.renderButton("AFF")}
                 {this.renderButton("Twitter")}
                 {this.renderButton("Instagram")}
             </ButtonGroup>
@@ -68,8 +68,9 @@ class PostsList extends React.Component {
             items: [],
             isLoading: false,
             error: null,
-            filters: ['All', 'Manual', 'Twitter', 'Instagram'],
-            service: 'All'
+            filters: ['All', 'AFF', 'Twitter', 'Instagram'],
+            service: 'All',
+            showButton: 'true'
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -94,10 +95,22 @@ class PostsList extends React.Component {
     }
     handleClick(i) {
         this.setState({service: i});
+        if ( (i === 'All')) {
+            this.setState({showButton: true});
+        } else {
+            this.setState({showButton: false});
+        }
     }
 
     render() {
-        const {items, isLoading, error, filters, service} = this.state;
+        const {items, isLoading, error, filters, service, showButton} = this.state;
+
+        let buttonClass;
+        if (showButton) {
+            buttonClass = {display:'block'};
+        } else {
+            buttonClass = {display:'none'};
+        }
 
         if (error) {
             return <div className="alert alert-info fade show" role="alert">{error.message}</div>;
@@ -143,7 +156,6 @@ class PostsList extends React.Component {
         }
 
         const posts = [].concat(items);
-
         posts.sort(SortByDate);
         return (
             <div>
@@ -157,85 +169,77 @@ class PostsList extends React.Component {
                             let postServiceName = post.service_name.toLowerCase();
                             let postDateItemConv = new Date(post.item_published);
                             let ago = dateDiffInDays(postDateItemConv, today);
-                            if (service === 'All') {
-                                if ((postServiceName.toLowerCase() === 'twitter')) {
-                                    return (
-                                        <TwitterPost
-                                            key={post.item_id}
-                                            userName={post.item_data.user.username}
-                                            ago={ago}
-                                            text={<ReactAutolinker text={post.item_data.tweet} />}
-                                        />
+                            if ((service === 'All') && (postServiceName.toLowerCase() === 'twitter')) {
+                                return (
+                                    <TwitterPost
+                                        key={post.item_id}
+                                        userName={post.item_data.user.username}
+                                        ago={ago}
+                                        text={<ReactAutolinker text={post.item_data.tweet} />}
+                                    />
 
-                                    );
+                                );
 
-                                } else if (postServiceName.toLowerCase() === 'instagram') {
-                                    return (
-                                        <InstagramPost
-                                            key={post.item_id}
-                                            userName={post.item_data.user.username}
-                                            text={<ReactAutolinker text={post.item_data.caption} />}
-                                            //imageUrl={post.item_data.image.medium}
-                                            imageUrl={choosePic()}
-                                            ago={ago}
-                                        />
-                                    );
-                                } else {
-                                    return (
-                                        <ManualPost
-                                            key={post.item_id}
-                                            text={<ReactAutolinker text={post.item_data.text} />}
-                                            //imageUrl={post.item_data.image_url}
-                                            imageUrl={choosePic()}
-                                            linkText={post.item_data.link_text}
-                                            linkUrl={post.item_data.link}
-                                            ago={ago}
-                                        />
-                                    );
-                                }
-                            } else if(service === 'Twitter') {
-                                if ((postServiceName.toLowerCase() === 'twitter')) {
-                                    return (
-                                        <TwitterPost
-                                            key={post.item_id}
-                                            userName={post.item_data.user.username}
-                                            text={<ReactAutolinker text={post.item_data.tweet} />}
-                                            ago={ago}
-                                        />
-                                    );
-                                }
-                            } else if(service === 'Instagram'){
-                                if ((postServiceName.toLowerCase() === 'instagram')) {
-                                    return (
-                                        <InstagramPost
-                                            key={post.item_id}
-                                            userName={post.item_data.user.username}
-                                            text={<ReactAutolinker text={post.item_data.caption} />}
-                                            //imageUrl={post.item_data.image.medium}
-                                            imageUrl={choosePic()}
-                                            ago={ago}
-                                        />
-                                    );
-                                }
-                            } else if(service === 'Manual'){
-                                if ((postServiceName.toLowerCase() === 'manual')) {
-                                    return (
-                                        <ManualPost
-                                            key={post.item_id}
-                                            text={<ReactAutolinker text={post.item_data.text} />}
-                                            //imageUrl={post.item_data.image_url}
-                                            imageUrl={choosePic()}
-                                            linkText={post.item_data.link_text}
-                                            linkUrl={post.item_data.link}
-                                            ago={ago}
-                                        />
-                                    );
-                                }
+                            } else if ((service === 'All') && (postServiceName.toLowerCase() === 'instagram')) {
+                                return (
+                                    <InstagramPost
+                                        key={post.item_id}
+                                        userName={post.item_data.user.username}
+                                        text={<ReactAutolinker text={post.item_data.caption} />}
+                                        //imageUrl={post.item_data.image.medium}
+                                        imageUrl={choosePic()}
+                                        ago={ago}
+                                    />
+                                );
+                            } else if ((service === 'All') && (postServiceName.toLowerCase() === 'manual')){
+                                return (
+                                    <ManualPost
+                                        key={post.item_id}
+                                        text={<ReactAutolinker text={post.item_data.text} />}
+                                        //imageUrl={post.item_data.image_url}
+                                        imageUrl={choosePic()}
+                                        linkText={post.item_data.link_text}
+                                        linkUrl={post.item_data.link}
+                                        ago={ago}
+                                    />
+                                );
+                            } else if((service === 'Twitter') && (postServiceName.toLowerCase() === 'twitter')) {
+                                return (
+                                    <TwitterPost
+                                        key={post.item_id}
+                                        userName={post.item_data.user.username}
+                                        text={<ReactAutolinker text={post.item_data.tweet} />}
+                                        ago={ago}
+                                    />
+                                );
+                            } else if( (service === 'Instagram') && (postServiceName.toLowerCase() === 'instagram')){
+                                return (
+                                    <InstagramPost
+                                        key={post.item_id}
+                                        userName={post.item_data.user.username}
+                                        text={<ReactAutolinker text={post.item_data.caption} />}
+                                        //imageUrl={post.item_data.image.medium}
+                                        imageUrl={choosePic()}
+                                        ago={ago}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <ManualPost
+                                        key={post.item_id}
+                                        text={<ReactAutolinker text={post.item_data.text} />}
+                                        //imageUrl={post.item_data.image_url}
+                                        imageUrl={choosePic()}
+                                        linkText={post.item_data.link_text}
+                                        linkUrl={post.item_data.link}
+                                        ago={ago}
+                                    />
+                                );
                             }
                         })
                     }
                 </ul>
-                <button onClick={this.fetchData} type="button" id="more" className="btn btn-primary btn-lg">Show me more</button>
+                <button style={buttonClass} onClick={this.fetchData} type="button" id="more" className="btn btn-primary btn-lg">Show me more</button>
             </div>
         );
     }
@@ -307,5 +311,5 @@ function choosePic() {
 //sort posts by date
 function SortByDate(x,y) {
     let sortColumnName = 'item_published';
-    return ((x[sortColumnName]  === y[sortColumnName]) ? 0 : ((x[sortColumnName]> y[sortColumnName]) ? 1 : -1 ));
+    return ((y[sortColumnName] === x[sortColumnName]) ? 0 : ((y[sortColumnName] > x[sortColumnName]) ? 1 : -1 ));
 }
