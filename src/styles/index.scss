@@ -1,0 +1,22 @@
+// Bootstrap library
+$font-family-dosis:     'Dosis', sans-serif;
+$font-family-noto:      'Noto Sans KR', sans-serif;
+$font-family-base:      $font-family-noto;
+$headings-font-family:  $font-family-dosis;
+$gray-600:              #c1bcbc;
+$red:                   #bd4440;
+$gray-900:              #777777;
+$body-color:            $gray-900;
+$link-color:            $red;
+$primary:               $red;
+$secondary:             #6c757d;
+
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
+@import '../../node_modules/react-responsive-carousel/lib/styles/carousel.css';
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+@import url('https://fonts.googleapis.com/css?family=Dosis');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
+
+// My Bootstrap configuration
+@import 'custom_bootstrap';

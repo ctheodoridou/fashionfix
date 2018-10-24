@@ -1,0 +1,143 @@
+
+
+body {
+  color: $body-color;
+  font-family: $font-family-base;
+}
+
+a {
+  color: $red;
+  &:hover {
+    color: darken($link-color, 15%);
+  }
+}
+
+.carousel {
+  p.caption {
+    position: absolute;
+    right: 0;
+    bottom: 10%;
+    background: $black;
+    padding: 0px 5px;
+    font-size: 2.3em;
+    font-family: $headings-font-family;
+    color: $white;
+  }
+}
+
+h1 {
+  text-transform: uppercase;
+  text-shadow: 3px 3px 0 #444;
+  text-align: center;
+  background-color: $gray-600;
+  color: $white;
+  padding: 10px;
+  font-family: $headings-font-family;
+}
+
+ul.socialWall {
+  list-style: none;
+  padding: 20px 0px;
+  margin: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-around;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  li.post {
+    border: 1px solid $gray-500;
+    padding: 15px;
+    width: 30%;
+    height: auto;
+    min-height: 200px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    position: relative;
+    .post__date {
+      margin: 5px 0px 20px 0px;
+      color: $black;
+      font-size: $font-size-sm;
+    }
+    .post__link {
+      margin-top: 15px;
+      display: block;
+    }
+    .post__icon {
+      border-radius: 8px;
+      position: absolute;
+      top: -10px;
+      width: 50px;
+      height: 70px;
+      display: table;
+      font-size: 2.4em;
+      color: $white;
+      padding-top: 25px;
+    }
+    &.post--twitter {
+      text-align: center;
+      .post__icon {
+        background-color: $black;
+      }
+      .post__user {
+        font-weight: 900;
+        font-size: $font-size-lg;
+      }
+    }
+    &.post--instagram {
+      .post__icon {
+        background-color: $black;
+        padding-left: 9px;
+      }
+      .post__user {
+        margin-top: 10px;
+        font-weight: 400;
+      }
+    }
+    &.post--manual {
+      .post__icon {
+        background-color: $red;
+        font-size: 1.4em;
+        padding-left: 6px;
+      }
+    }
+  }
+}
+
+#filters {
+  display: table;
+  margin: auto;
+  .btn {
+    border: none;
+    &:focus {
+      background: $red;
+      border: $red;
+      box-shadow: none;
+    }
+  }
+}
+
+#more {
+  display: table;
+  margin: auto;
+}
+
+@include media-breakpoint-down(lg){
+  ul.socialWall li.post {
+    width: 45%;
+  }
+}
+@include media-breakpoint-down(sm) {
+  h1 {
+    font-size: 1.6em;
+  }
+  .carousel p.caption {
+    font-size: 1.8em;
+  }
+  ul.socialWall li.post {
+    width: 90%;
+  }
+}
+
