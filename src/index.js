@@ -83,7 +83,7 @@ class PostsList extends React.Component {
     }
 
     fetchData = () => {
-        fetch('http://private-cc77e-aff.apiary-mock.com/posts')
+        fetch('https://private-cc77e-aff.apiary-mock.com/posts')
             .then(response => {
                 if (response.ok) {
                     return response.json();
